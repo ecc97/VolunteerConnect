@@ -1,0 +1,11 @@
+nav {
+    display: flex;
+
+    &.primary {
+        background-color: rgba(200, 224, 255, 1);
+    }
+
+    &.secondary {
+        background-color: #f9fafb;
+    }
+}
