@@ -1,11 +1,9 @@
 import React from 'react'
+import { LoginTemplate } from '@/components/ui/templates'
 
 
 export default function LoginPage() {
   return (
-    <div>
-      <h1>Login Page</h1>
-      {/* Add login form here */}
-    </div>
+    <LoginTemplate />
   )
 }
