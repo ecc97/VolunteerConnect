@@ -23,7 +23,23 @@ export default function LoginForm() {
     })
     
     const handleLogin = async (data: ILoginRequest) => {
-        console.log(data)
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email: data.email,
+                password: data.password,
+            })
+            // router.push('/')
+            console.log('Logueado ', result)
+
+            if (result?.error) {
+                console.log('Ocurrió un error', JSON.parse(result.error))
+                handleError(JSON.parse(result.error))   
+                return
+            }
+        } catch (error) {
+           console.error(error)
+        }
     }
     
     const handleError = (error: unknown) => {
