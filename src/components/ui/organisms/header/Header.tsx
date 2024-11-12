@@ -20,7 +20,9 @@ export default function Header({variant}: HeaderProps) {
         <Link href='/login'>
           <Button variant='secondary'>Iniciar sesión</Button>
         </Link>
-        <Button variant='primary'>Registrate</Button>
+        <Link href='/register'>
+          <Button variant='primary'>Registrate</Button>
+        </Link>
       </Navbar>
     </header>
   )
