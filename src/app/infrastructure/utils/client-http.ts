@@ -10,6 +10,8 @@ interface Session extends DefaultSession {
         name?: string | null;
         email?: string | null;
         image?: string | null;
+        photo?: string | null;
+        role?: string | null;
     };
 }
 export class HttpClient {
