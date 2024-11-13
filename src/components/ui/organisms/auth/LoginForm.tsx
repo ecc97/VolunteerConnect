@@ -29,14 +29,14 @@ export default function LoginForm() {
                 email: data.email,
                 password: data.password,
             })
-            // router.push('/')
             console.log('Logueado ', result)
-
+            
             if (result?.error) {
                 console.log('Ocurrió un error', JSON.parse(result.error))
                 handleError(JSON.parse(result.error))   
                 return
             }
+            router.push('/dashboard/projects')
         } catch (error) {
            console.error(error)
         }
