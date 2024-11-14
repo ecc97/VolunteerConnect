@@ -1,8 +1,11 @@
 "use client";
 import React from 'react';
-import './Proyects.scss'
+import Button from '../../atoms/button/Button';
+import Modal from '../../molecules/common/modal/Modal';
+import ModalForm from '../../organisms/modalForm/create/ModalForm';
 import { IProjectRequest, IProjectsResponse } from '@/app/core/application/dto';
 import Pagination from '../../molecules/common/Pagination';
+import './Proyects.scss'
 
 interface ProjectsTemplateProps {
   dataProjects: IProjectsResponse;
@@ -11,6 +14,9 @@ interface ProjectsTemplateProps {
 
 const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
   const projects = dataProjects.data
+  const [showModal, setShowModal] = React.useState(false)
+  const handleShowModal = () => setShowModal(true)
+  const handleCloseModal = () => setShowModal(false)
   // // Implementar función para manejar click en un proyecto
 
   // const handleProjectClick = (project: IProjectRequest) => {
@@ -20,6 +26,14 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
   // };
   return (
     <div className="projects-dashboard">
+      {/* Contenedor superior de estadísticas y botones */}
+      <div className="dashboard-header">
+        <h1>Dashboard de Proyectos</h1>
+        <div className="header-buttons">
+          <Button variant='primary'> Descargar Proyecto</Button>
+          <Button variant='primary' onClick={handleShowModal}>Nuevo Proyecto</Button>
+        </div>
+      </div>
 
       {/* Estadísticas de proyectos */}
       <div className="project-stats">
@@ -82,6 +96,8 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
       {/* Paginación */}
       <Pagination data={dataProjects} />
       {/* <Pagination totalPages={dataProjects.totalPages} currentPage={dataProjects.currentPage} /> */}
+      {/* Modal para agregar un nuevo proyecto */}
+      <ModalForm isOpen={showModal} onClose={handleCloseModal} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { IProjectRequest, IProjectsResponse } from "@/app/core/application/dto";
+import { IProjectRequest, IProjectsResponse, IProjectResponse } from "@/app/core/application/dto";
 import { PProject } from "@/app/core/application/ports";
 import { HttpClient } from "../utils/client-http";
 
@@ -18,4 +18,13 @@ export class ProjectsService implements PProject {
             throw error
         }
     }
+    async createProject(req: IProjectRequest): Promise<IProjectResponse> {
+        try {
+            const response = await this.httpClient.post<IProjectResponse, IProjectRequest>('projects', req)
+            return response;
+        } catch (error) {
+            console.log('Error creando proyecto:', error)
+            throw error
+        }
+    }   
 }

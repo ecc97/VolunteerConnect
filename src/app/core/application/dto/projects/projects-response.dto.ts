@@ -31,3 +31,26 @@ export interface Metadata {
     totalPages:   number;
     currentPage:  number;
 }
+
+//POST response
+export interface IProjectResponse {
+    statusCode: number;
+    message:    string;
+    data:       IProjectData;
+}
+
+export interface IProjectData {
+    title:       string;
+    description: string;
+    startDate:   Date;
+    endDate:     Date;
+    organizer:   OrganizerData;
+    id:          number;
+    isActive:    boolean;
+}
+
+export interface OrganizerData {
+    id:    number;
+    email: string;
+    role:  string;
+}
