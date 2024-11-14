@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
 import Button from '../../atoms/button/Button';
-import Modal from '../../molecules/common/modal/Modal';
 import ModalForm from '../../organisms/modalForm/create/ModalForm';
+import UpdateModalForm from '../../organisms/modalForm/update/ModalForm';
 import { IProjectRequest, IProjectsResponse } from '@/app/core/application/dto';
 import Pagination from '../../molecules/common/Pagination';
 import './Proyects.scss'
@@ -15,8 +15,19 @@ interface ProjectsTemplateProps {
 const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
   const projects = dataProjects.data
   const [showModal, setShowModal] = React.useState(false)
+  const [isEditMode, setIsEditMode] = React.useState(false)
+  const [selectedProject, setSelectedProject] = React.useState<IProjectRequest | null>(null);
   const handleShowModal = () => setShowModal(true)
   const handleCloseModal = () => setShowModal(false)
+
+  const handleShowEditModal = (project: IProjectRequest) => {
+    setSelectedProject(project);
+    setIsEditMode(true);
+  };
+  const handleCloseEditModal = () => {
+    setSelectedProject(null);
+    setIsEditMode(false);
+  };
   // // Implementar función para manejar click en un proyecto
 
   // const handleProjectClick = (project: IProjectRequest) => {
@@ -85,7 +96,7 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
                 )}</td>
                 <td>{project.organizer.name}</td>
                 <td className='flex p-7'>
-                  <button className="edit-button">Editar</button>
+                  <button className="edit-button" onClick={() => handleShowEditModal(project)}>Editar</button>
                   <button className="delete-button">Eliminar</button>
                 </td>
               </tr>
@@ -98,6 +109,10 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
       {/* <Pagination totalPages={dataProjects.totalPages} currentPage={dataProjects.currentPage} /> */}
       {/* Modal para agregar un nuevo proyecto */}
       <ModalForm isOpen={showModal} onClose={handleCloseModal} />
+      {/* Modal para editar un proyecto */}
+      {selectedProject && (
+        <UpdateModalForm isOpen={isEditMode} onClose={handleCloseEditModal} project={selectedProject} />
+      )}
     </div>
   );
 };
