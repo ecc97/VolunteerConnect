@@ -70,7 +70,7 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
                   <span className="status-inactive">Inactivo</span>
                 )}</td>
                 <td>{project.organizer.name}</td>
-                <td>
+                <td className='flex p-7'>
                   <button className="edit-button">Editar</button>
                   <button className="delete-button">Eliminar</button>
                 </td>

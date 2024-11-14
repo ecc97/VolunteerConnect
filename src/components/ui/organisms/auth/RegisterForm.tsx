@@ -12,10 +12,11 @@ import * as yup from 'yup'
 import { useRouter } from 'next/navigation'
 
 const registerSchema = yup.object().shape({
-    email: yup.string().email().required('El correo electrónico es obligatorio'),
+    email: yup.string().email('Correo inválido').required('El correo electrónico es obligatorio'),
     password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('La contraseña es obligatoria'),
     name: yup.string().required('El nombre es obligatorio'),
-    rol: yup.string().required('El rol es obligatorio'),
+    role: yup.string().required('El rol es obligatorio'),
+    photo: yup.mixed<File>().nullable().notRequired()
 })
 
 const RegisterForm = () => {
@@ -27,8 +28,29 @@ const RegisterForm = () => {
     })
     
     const handleRegister = async (data: IRegisterResquest) => {
-        // Aquí puedes manejar la lógica de registro
-        console.log(data)
+        try {
+            const formData = new FormData()
+            formData.append('email', data.email)
+            formData.append('password', data.password)
+            formData.append('name', data.name)
+            formData.append('role', data.role)
+            if (data.photo) {
+                formData.append('photo', data.photo)
+            }
+            const response = await fetch('/api/users/post', {
+                method: 'POST',
+                body: formData
+            })
+            if (!response.ok) {
+                throw new Error('Hubo un error al registrar el usuario')
+            }
+            const newUser = await response.json()
+            console.log('Usuario registrado correctamente', newUser)
+            router.push('/login')
+        } catch (error) {
+            console.error('Error al registrar el usuario:', error)
+            throw error
+        }
     }
 
     return (
@@ -58,18 +80,18 @@ const RegisterForm = () => {
                 error={errors.name}
                 placeholder="Ingresa tu nombre"
             />
-            <FormSelectField
+            <FormSelectField<IRegisterResquest>
                 control={control}
                 label="Rol"
-                name="rol"
+                name="role"
                 options={[
-                    { value: 'organizer', label: 'Organización' },
+                    { value: 'organizer', label: 'Organizador' },
                     { value: 'volunteer', label: 'Voluntario' },
                 ]}
-                error={errors.rol}
+                error={errors.role}
                 placeholder="Seleccione su rol"
             />
-            <FormFieldFile
+            <FormFieldFile<IRegisterResquest>
                 control={control}
                 label="Foto"
                 name="photo"

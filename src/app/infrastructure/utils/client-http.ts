@@ -57,12 +57,12 @@ export class HttpClient {
         return this.handleResponse(response);
     }
 
-    async post<T, B>(url: string, body: B): Promise<T> {
-        const headers = await this.getHeader();
+    async post<T, B>(url: string, body: B, formData: boolean = false): Promise<T> {
+        const headers = await this.getHeader(formData);
         const response = await fetch(`${this.baseUrl}/${url}`, {
             headers: headers,
             method: "POST",
-            body: JSON.stringify(body),
+            body: formData? body as FormData : JSON.stringify(body),
         });
 
         return this.handleResponse(response);
