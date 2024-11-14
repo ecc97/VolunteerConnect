@@ -54,3 +54,15 @@ export interface OrganizerData {
     email: string;
     role:  string;
 }
+
+// DELETE response
+export interface IProjectDeleteResponse {
+    statusCode: number;
+    message:    string;
+    data:       DataMessage;
+}
+
+export interface DataMessage {
+    message: string;
+}
+

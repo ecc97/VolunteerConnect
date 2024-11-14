@@ -5,6 +5,7 @@ import ModalForm from '../../organisms/modalForm/create/ModalForm';
 import UpdateModalForm from '../../organisms/modalForm/update/ModalForm';
 import { IProjectRequest, IProjectsResponse } from '@/app/core/application/dto';
 import Pagination from '../../molecules/common/Pagination';
+import { useRouter } from 'next/navigation';
 import './Proyects.scss'
 
 interface ProjectsTemplateProps {
@@ -14,6 +15,7 @@ interface ProjectsTemplateProps {
 
 const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
   const projects = dataProjects.data
+  const router = useRouter()
   const [showModal, setShowModal] = React.useState(false)
   const [isEditMode, setIsEditMode] = React.useState(false)
   const [selectedProject, setSelectedProject] = React.useState<IProjectRequest | null>(null);
@@ -35,6 +37,23 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
   //     handleProjectClick(project);
   //   }
   // };
+
+  const onDelete = async (id: string) => {
+    const confirmed = confirm('¿Estás seguro de que quieres eliminar este elemento?')
+    if (!confirmed) return
+    try {
+      await fetch(`/api/projects/${Number(id)}/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      console.log('Proyecto eliminado con éxito')
+    } catch (error) {
+      console.error('Error al eliminar el proyecto', error)
+    }
+    router.refresh()
+  }
   return (
     <div className="projects-dashboard">
       {/* Contenedor superior de estadísticas y botones */}
@@ -97,7 +116,7 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
                 <td>{project.organizer.name}</td>
                 <td className='flex p-7'>
                   <button className="edit-button" onClick={() => handleShowEditModal(project)}>Editar</button>
-                  <button className="delete-button">Eliminar</button>
+                  <button className="delete-button" onClick={() => onDelete(String(project.id))}>Eliminar</button>
                 </td>
               </tr>
             ))}

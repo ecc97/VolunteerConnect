@@ -1,4 +1,4 @@
-import { IProjectRequest, IProjectsResponse, IProjectResponse } from "../dto";
+import { IProjectRequest, IProjectsResponse, IProjectResponse, IProjectDeleteResponse } from "../dto";
 
 export interface PProject {
     /**
@@ -20,4 +20,16 @@ export interface PProject {
     //  * @returns {Promise<IProjectResponse>} Project response
     // */
     // getProjectById(id: number): Promise<IProjectResponse>;
+    // /**
+    //  * Update a project by ID
+    //  * @param id
+    //  * @param req - {IProjectRequest} - Project request
+    //  * @returns {Promise<IProjectResponse>} - Project response
+    // updateProject(id: number, req: IProjectRequest): Promise<IProjectResponse>;
+    /**
+     * Delete a project by ID
+     * @param id
+     * @returns {Promise<IProjectDeleteResponse>} Project response
+     */ 
+    deleteProject(id: number): Promise<IProjectDeleteResponse>;
 }
