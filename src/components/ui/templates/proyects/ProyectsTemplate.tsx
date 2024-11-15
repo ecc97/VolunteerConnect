@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '../../atoms/button/Button';
 import ModalForm from '../../organisms/modalForm/create/ModalForm';
 import UpdateModalForm from '../../organisms/modalForm/update/ModalForm';
+import Search from '../../molecules/common/search/Search';
 import { IProjectRequest, IProjectsResponse } from '@/app/core/application/dto';
 import Pagination from '../../molecules/common/Pagination';
 import { useRouter } from 'next/navigation';
@@ -60,7 +61,7 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
       <div className="dashboard-header">
         <h1>Dashboard de Proyectos</h1>
         <div className="header-buttons">
-          <Button variant='primary'> Descargar Proyecto</Button>
+          <Button variant='primary'> Descargar Reporte</Button>
           <Button variant='primary' onClick={handleShowModal}>Nuevo Proyecto</Button>
         </div>
       </div>
@@ -76,7 +77,7 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
       {/* Lista de proyectos */}
       <div className="project-list">
         <h2>Lista de Proyectos</h2>
-        <input type="text" placeholder="Buscar proyectos..." className="search-bar" />
+        <Search />
         <table className="project-table">
           <thead>
             <tr>
