@@ -32,4 +32,9 @@ export interface PProject {
      * @returns {Promise<IProjectDeleteResponse>} Project response
      */ 
     deleteProject(id: number): Promise<IProjectDeleteResponse>;
+    /**
+     * Get report 
+     * @returns {Promise<ArrayBuffer>} Report response
+     */
+    getProjectReport(): Promise<ArrayBuffer>;
 }

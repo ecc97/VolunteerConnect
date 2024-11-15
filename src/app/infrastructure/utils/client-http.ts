@@ -46,13 +46,17 @@ export class HttpClient {
         return await response.json();
     }
 
-    async get<T>(url: string): Promise<T> {
+    async get<T>(url: string, isBinary: boolean = false): Promise<T> {
         const headers = await this.getHeader();
         const response = await fetch(`${this.baseUrl}/${url}`, {
             headers: headers,
             method: "GET",
             cache: "no-store",
         });
+
+        if (isBinary) {
+            return response.arrayBuffer() as unknown as T;
+        }
 
         return this.handleResponse(response);
     }

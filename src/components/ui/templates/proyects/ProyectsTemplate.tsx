@@ -55,13 +55,46 @@ const ProjectsTemplate = ({ dataProjects }: ProjectsTemplateProps) => {
     }
     router.refresh()
   }
+
+  const handleDownload = async () => {
+    try {
+        const response = await fetch("/api/projects/report", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al descargar el reporte");
+        }
+
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.setAttribute("download", "reporte-proyectos.xlsx"); 
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+        console.log("Descarga completa");
+
+    } catch (error) {
+        console.error("Error al descargar reporte:", error);
+        throw error;
+    }
+};
   return (
     <div className="projects-dashboard">
       {/* Contenedor superior de estadísticas y botones */}
       <div className="dashboard-header">
         <h1>Dashboard de Proyectos</h1>
         <div className="header-buttons">
-          <Button variant='primary'> Descargar Reporte</Button>
+          <Button variant='primary'  onClick={handleDownload}> Descargar Reporte</Button>
           <Button variant='primary' onClick={handleShowModal}>Nuevo Proyecto</Button>
         </div>
       </div>

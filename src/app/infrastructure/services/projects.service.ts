@@ -53,4 +53,13 @@ export class ProjectsService implements PProject {
             throw error
         }
     }
+    async getProjectReport(): Promise<ArrayBuffer> {
+        try {
+            const response = await this.httpClient.get<ArrayBuffer>('projects/report/download', true)
+            return response;
+        } catch (error) {
+            console.log('Error obteniendo informe:', error)
+            throw error
+        }
+    }
 }
